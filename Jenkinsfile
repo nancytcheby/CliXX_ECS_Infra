@@ -1,0 +1,109 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'RUNNER', defaultValue: 'Nancy', description: 'Runner name')
+        booleanParam(name: 'SKIP_DESTROY', defaultValue: true, description: 'Skip terraform destroy stage')
+    }
+
+    environment {
+        PATH = "${PATH}:${getTerraformPath()}"
+        VERSION = "1.0.${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Initial Stage') {
+            steps {
+                script {
+                    echo "Pipeline started by RUNNER = ${params.RUNNER}"
+                    input(
+                        id: 'confirm',
+                        message: "Start Pipeline? RUNNER = ${params.RUNNER}",
+                        ok: "Proceed"
+                    )
+                }
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                //slackSend (color: '#FFFF00', message: "STARTING TERRAFORM INIT: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh """
+                terraform init -upgrade
+                """
+            }
+        }
+
+        stage('Terraform Validate') {
+            steps {
+                //slackSend (color: '#FFFF00', message: "STARTING TERRAFORM VALIDATE: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh """
+                terraform validate
+                """
+            }
+        }
+
+        stage('Terraform Plan') {
+            when {
+                expression { params.SKIP_DESTROY == true }
+            }
+            steps {
+                //slackSend (color: '#FFFF00', message: "STARTING TERRAFORM PLAN: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh """
+                terraform plan -out=tfplan -input=false
+                """
+            }
+        }
+
+        stage('Build Infrastructure (Terraform Apply)') {
+            when {
+                expression { params.SKIP_DESTROY == true }
+            }
+            steps {
+                //slackSend (color: '#FFFF00', message: "STARTING INFRASTRUCTURE BUILD: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh """
+                terraform apply -auto-approve tfplan
+                """
+                //slackSend (color: '#00FF00', message: "INFRASTRUCTURE DEPLOYED")
+            }
+        }
+
+        stage('Terraform Destroy') {
+            when {
+                expression { params.SKIP_DESTROY == false }
+            }
+            steps {
+                script {
+                    input(
+                        id: 'confirm-destroy',
+                        message: "WARNING: About to DESTROY all infrastructure. Continue?",
+                        ok: "Yes, Destroy Everything"
+                    )
+                }
+                //slackSend (color: '#FF0000', message: "STARTING TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh """
+                terraform destroy -auto-approve
+                """
+                //slackSend (color: '#00FF00', message: "COMPLETED TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+            }
+        }
+    }
+
+    //post {
+        //success {
+            //slackSend (color: '#00FF00', message: "PIPELINE SUCCESSFUL: '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+        //}
+        //failure {
+            //slackSend (color: '#FF0000', message: "PIPELINE FAILED: '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+        //}
+        //always {
+            //echo "Pipeline completed for ${params.RUNNER}"
+        //}
+    //}
+}
+
+def getTerraformPath() {
+    def tfHome = tool name: 'terraform-14', type: 'terraform'
+    return tfHome
+}
