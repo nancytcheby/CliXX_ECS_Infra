@@ -84,9 +84,10 @@ pipeline {
                         ok: "Yes, Destroy Everything"
                     )
                 }
+                withCredentials([string(credentialsId: 'CLIXX_DB_PASSWORD', variable: 'DB_PASS')]) {
                 //slackSend (color: '#FF0000', message: "STARTING TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh """
-                terraform destroy -auto-approve
+                terraform destroy -var="db_password=${DB_PASS}" -auto-approve
                 """
                 //slackSend (color: '#00FF00', message: "COMPLETED TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
             }
