@@ -50,11 +50,14 @@ pipeline {
             }
             steps {
                 //slackSend (color: '#FFFF00', message: "STARTING TERRAFORM PLAN: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                withCredentials([string(credentialsId: 'CLIXX_DB_PASSWORD', variable: 'DB_PASS')]) {
                 sh """
-                terraform plan -out=tfplan -input=false
+                terraform plan -var="db_password=${DB_PASS}" -out=tfplan -input=false
                 """
             }
         }
+
+    } 
 
         stage('Build Infrastructure (Terraform Apply)') {
             when {

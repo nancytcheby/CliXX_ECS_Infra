@@ -115,6 +115,13 @@ variable "database_config" {
   }
 }
 
+variable "db_password" {
+  description = "Database password"
+  type        = string
+  sensitive   = true
+}
+
+
 # ----------------------------------------
 # Route53 / DNS Configuration
 # ----------------------------------------
