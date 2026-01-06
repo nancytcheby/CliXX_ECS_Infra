@@ -3,13 +3,13 @@
 # ----------------------------------------
 
 variable "env" {
-  description = "Environment name (dev, test, uat, prod)"
+  description = "Environment name (dev, test, aut, prod)"
   type        = string
-  default     = "dev"
+  default     = "aut"
   
   validation {
-    condition     = contains(["dev", "test", "uat", "prod"], var.env)
-    error_message = "Environment must be one of: dev, test, uat, prod."
+    condition     = contains(["dev", "test", "aut", "prod"], var.env)
+    error_message = "Environment must be one of: dev, test, aut, prod."
   }
 }
 
@@ -20,7 +20,7 @@ variable "accounts" {
     admin = "135576900189" 
     dev   = "083587468058"
     test  = "279271292861"
-    uat   = "818760291841"
+    aut   = "818760291841"
     prod  = "767076727117"
   }
 }
@@ -151,4 +151,44 @@ variable "ecs_desired_count" {
   description = "Desired number of ECS tasks"
   type        = number
   default     = 2
+}
+
+# ----------------------------------------
+# ECS EC2 Configuration
+# ----------------------------------------
+
+variable "ecs_ami_id" {
+  description = "ECS-optimized AMI ID"
+  type        = string
+  default     = "ami-0f35c2f92761082f9"  
+}
+
+variable "ecs_instance_type" {
+  description = "EC2 instance type for ECS"
+  type        = string
+  default     = "t3.medium"
+}
+
+variable "ecs_desired_capacity" {
+  description = "Desired number of ECS instances"
+  type        = number
+  default     = 2
+}
+
+variable "ecs_min_size" {
+  description = "Minimum number of ECS instances"
+  type        = number
+  default     = 1
+}
+
+variable "ecs_max_size" {
+  description = "Maximum number of ECS instances"
+  type        = number
+  default     = 4
+}
+
+variable "project_name" {
+  description = "Project name for resource naming"
+  type        = string
+  default     = "clixx"
 }
