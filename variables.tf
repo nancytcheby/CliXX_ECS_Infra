@@ -111,7 +111,7 @@ variable "database_config" {
   default = {
     username            = "wordpressuser"
     db_name             = "wordpressdb"
-    db_host             = "wordpress-db.c8x2s4kiedw0.us-east-1.rds.amazonaws.com"
+    db_host             = "clixx-db-aut.cc7es6q2474e.us-east-1.rds.amazonaws.com"
   }
 }
 
@@ -132,7 +132,7 @@ variable "root_domain" {
 variable "ecr_repository_url" {
   description = "ECR repository URL for Docker image"
   type        = string
-  default     = "083587468058.dkr.ecr.us-east-1.amazonaws.com/clixx-repository"
+  default     = "818760291841.dkr.ecr.us-east-1.amazonaws.com/clixx-repository"
 }
 
 variable "ecs_task_cpu" {
