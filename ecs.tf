@@ -267,6 +267,7 @@ resource "aws_route53_record" "ecs_record" {
   type     = "CNAME"
   ttl      = 300
   records  = [aws_lb.ecs_alb.dns_name]
+  allow_overwrite = true
 }
 
 
