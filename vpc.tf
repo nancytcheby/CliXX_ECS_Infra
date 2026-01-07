@@ -239,15 +239,6 @@ resource "aws_route_table_association" "private_java_app_rta" {
 # DB Subnet Groups
 ########################
 
-resource "aws_db_subnet_group" "rds_subnet_group" {
-  name       = "clixx-rds-subnet-group-${var.env}"
-  subnet_ids = [for subnet in aws_subnet.private_rds_subnet : subnet.id]
-
-  tags = {
-    Name = "clixx-rds-subnet-group-${var.env}"
-  }
-}
-
 resource "aws_db_subnet_group" "oracle_subnet_group" {
   name       = "clixx-oracle-subnet-group-${var.env}"
   subnet_ids = [for subnet in aws_subnet.private_oracle_subnet : subnet.id]
