@@ -21,3 +21,13 @@ output "ecs_url" {
   description = "URL to access the ECS application"
   value       = "http://ecs.${var.root_domain}"
 }
+
+output "rds_endpoint" {
+  description = "RDS instance endpoint"
+  value       = aws_db_instance.clixx_db.endpoint
+}
+
+output "rds_hostname" {
+  description = "RDS instance hostname (without port)"
+  value       = aws_db_instance.clixx_db.address
+}

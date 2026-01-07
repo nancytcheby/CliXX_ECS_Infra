@@ -65,7 +65,7 @@ resource "aws_ecs_task_definition" "clixx_task" {
       environment = [
         {
           name  = "WORDPRESS_DB_HOST"
-          value = var.database_config["db_host"]
+          value = aws_db_instance.clixx_db.address
         },
         {
           name  = "WORDPRESS_DB_USER"

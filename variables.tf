@@ -121,6 +121,18 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "db_snapshot_identifier" {
+  description = "RDS snapshot identifier to restore from"
+  type        = string
+  default     = "arn:aws:rds:us-east-1:083587468058:snapshot:wordpressdbclixx-ecs-snapshot-copy"
+}
+
+variable "rds_instance_class" {
+  description = "RDS instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
+
 
 # ----------------------------------------
 # Route53 / DNS Configuration
