@@ -51,14 +51,12 @@ pipeline {
             steps {
                 //slackSend (color: '#FFFF00', message: "STARTING TERRAFORM PLAN: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 withCredentials([string(credentialsId: 'CLIXX_DB_PASSWORD', variable: 'DB_PASS')]) {
-                sh """
-                terraform plan -var="db_password=${DB_PASS}" -out=tfplan -input=false
-                """
+                    sh """
+                    terraform plan -var="db_password=${DB_PASS}" -out=tfplan -input=false
+                    """
+                }
             }
         }
-
-    }
-    }
 
         stage('Build Infrastructure (Terraform Apply)') {
             when {
@@ -86,15 +84,15 @@ pipeline {
                     )
                 }
                 withCredentials([string(credentialsId: 'CLIXX_DB_PASSWORD', variable: 'DB_PASS')]) {
-                //slackSend (color: '#FF0000', message: "STARTING TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                sh """
-                terraform destroy -var="db_password=${DB_PASS}" -auto-approve
-                """
-                //slackSend (color: '#00FF00', message: "COMPLETED TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+                    //slackSend (color: '#FF0000', message: "STARTING TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    sh """
+                    terraform destroy -var="db_password=${DB_PASS}" -auto-approve
+                    """
+                    //slackSend (color: '#00FF00', message: "COMPLETED TERRAFORM DESTROY: Job '${params.RUNNER} ${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+                }
             }
         }
     }
-}
 
     //post {
         //success {
@@ -113,3 +111,4 @@ def getTerraformPath() {
     def tfHome = tool name: 'terraform-14', type: 'terraform'
     return tfHome
 }
+
