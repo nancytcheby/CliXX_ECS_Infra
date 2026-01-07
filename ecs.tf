@@ -196,7 +196,7 @@ resource "aws_lb_target_group" "ecs_tg" {
     enabled             = true
     healthy_threshold   = 2
     interval            = 30
-    matcher             = "200,302"
+    matcher             = "200,301,302"
     path                = "/"
     port                = "traffic-port"
     protocol            = "HTTP"
