@@ -57,7 +57,8 @@ pipeline {
             }
         }
 
-    } 
+    }
+    }
 
         stage('Build Infrastructure (Terraform Apply)') {
             when {
@@ -93,6 +94,7 @@ pipeline {
             }
         }
     }
+}
 
     //post {
         //success {
