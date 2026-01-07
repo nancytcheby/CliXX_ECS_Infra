@@ -124,7 +124,7 @@ variable "db_password" {
 variable "db_snapshot_identifier" {
   description = "RDS snapshot identifier to restore from"
   type        = string
-  default     = "arn:aws:rds:us-east-1:083587468058:snapshot:wordpressdbclixx-ecs-snapshot-copy"
+  default     = "clixx-ecs-snapshot-updated-urls"
 }
 
 variable "rds_instance_class" {
