@@ -20,3 +20,13 @@ terraform {
 provider "aws" {
   region = var.aws_region
 }
+
+# Provider for dev account Route53
+provider "aws" {
+  alias  = "dev_account"
+  region = var.aws_region
+
+  assume_role {
+    role_arn = "arn:aws:iam::083587468058:role/Route53CrossAccountRole"
+  }
+}

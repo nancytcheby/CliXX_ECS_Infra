@@ -261,15 +261,12 @@ resource "aws_ecs_service" "clixx_service" {
 ########################
 
 resource "aws_route53_record" "ecs_record" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = "ecs.${var.root_domain}"
-  type    = "A"
-
-  alias {
-    name                   = aws_lb.ecs_alb.dns_name
-    zone_id                = aws_lb.ecs_alb.zone_id
-    evaluate_target_health = true
-  }
+  provider = aws.dev_account
+  zone_id  = data.aws_route53_zone.main.zone_id
+  name     = "ecs.${var.root_domain}"
+  type     = "CNAME"
+  ttl      = 300
+  records  = [aws_lb.ecs_alb.dns_name]
 }
 
 

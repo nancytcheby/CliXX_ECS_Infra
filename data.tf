@@ -7,6 +7,7 @@ data "aws_availability_zones" "available" {
 }
 
 data "aws_route53_zone" "main" {
+  provider     = aws.dev_account
   name         = var.root_domain
   private_zone = false
 }
