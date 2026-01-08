@@ -178,7 +178,7 @@ variable "ecs_desired_count" {
 variable "ecs_ami_id" {
   description = "ECS-optimized AMI ID"
   type        = string
-  default     = "ami-0c63b7a10b2979952"  
+  default     = "ami-0ca37b07dab0da592"  
 }
 
 variable "ecs_instance_type" {
