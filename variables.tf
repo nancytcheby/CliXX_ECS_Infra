@@ -133,7 +133,6 @@ variable "rds_instance_class" {
   default     = "db.t3.micro"
 }
 
-
 # ----------------------------------------
 # Route53 / DNS Configuration
 # ----------------------------------------
@@ -179,7 +178,7 @@ variable "ecs_desired_count" {
 variable "ecs_ami_id" {
   description = "ECS-optimized AMI ID"
   type        = string
-  default     = "ami-0f35c2f92761082f9"  
+  default     = "ami-0c63b7a10b2979952"  
 }
 
 variable "ecs_instance_type" {
