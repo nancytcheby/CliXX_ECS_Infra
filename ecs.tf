@@ -261,6 +261,7 @@ resource "aws_ecs_service" "clixx_service" {
 ########################
 
 resource "aws_route53_record" "ecs_record" {
+  provider = aws.dev_account
   zone_id  = data.aws_route53_zone.main.zone_id
   name     = "ecs.${var.root_domain}"
   type     = "CNAME"
