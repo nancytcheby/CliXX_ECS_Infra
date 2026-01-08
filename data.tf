@@ -7,7 +7,6 @@ data "aws_availability_zones" "available" {
 }
 
 data "aws_route53_zone" "main" {
-  provider     = aws.dev_account
   name         = "nancy-stack.com."
   private_zone = false
 }
