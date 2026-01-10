@@ -105,14 +105,16 @@ variable "private_java_app_subnets" {
 # Database Configuration
 # ----------------------------------------
 
-variable "database_config" {
-  description = "Map of DB settings for Clixx"
-  type        = map(string)
-  default = {
-    username            = "wordpressuser"
-    db_name             = "wordpressdb"
-    db_host             = "clixx-db-aut.cc7es6q2474e.us-east-1.rds.amazonaws.com"
-  }
+variable "db_username" {
+  description = "Database username"
+  type        = string
+  default     = "wordpressuser"
+}
+
+variable "db_name" {
+  description = "Database name"
+  type        = string
+  default     = "wordpressdb"
 }
 
 variable "db_password" {
@@ -124,7 +126,7 @@ variable "db_password" {
 variable "db_snapshot_identifier" {
   description = "RDS snapshot identifier to restore from"
   type        = string
-  default     = "arn:aws:rds:us-east-1:818760291841:snapshot:clixx-ecs-snapshot-updated-urls"
+  default     = "arn:aws:rds:us-east-1:577701061234:snapshot:wordpressdbclixx-ecs-snapshot"
 }
 
 variable "rds_instance_class" {

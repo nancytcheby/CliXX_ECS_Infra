@@ -15,6 +15,14 @@ resource "aws_security_group" "rds_sg" {
     security_groups = [aws_security_group.ecs_tasks_sg.id]
   }
 
+    ingress {
+    description     = "MySQL from ECS instances for URL update"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ecs_instances_sg.id]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -64,7 +72,7 @@ resource "aws_db_instance" "clixx_db" {
   skip_final_snapshot    = true
   deletion_protection    = false
 
-  # Apply changes immediately during destroy/rebuild
+  # Apply changes immediately during destroy
   apply_immediately = true
 
   tags = {
