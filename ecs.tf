@@ -69,11 +69,11 @@ resource "aws_ecs_task_definition" "clixx_task" {
         },
         {
           name  = "WORDPRESS_DB_USER"
-          value = var.database_config["username"]
+          value = var.db_username
         },
         {
           name  = "WORDPRESS_DB_NAME"
-          value = var.database_config["db_name"]
+          value = var.db_name
         },
         {
            name  = "WORDPRESS_DB_PASSWORD"
