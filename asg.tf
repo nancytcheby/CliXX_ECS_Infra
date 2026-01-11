@@ -50,14 +50,14 @@ resource "aws_launch_template" "ecs_launch_template" {
               #!/bin/bash
               echo ECS_CLUSTER=${aws_ecs_cluster.clixx_cluster.name} >> /etc/ecs/ecs.config
               
-              # Install MySQL client
+              # Install MySQL 
               yum install -y mariadb105
               
               # Wait for RDS to be ready
-              sleep 120
+              sleep 180
               
-              # Update WordPress URLs (replace NLB URL with ECS URL)
-              mysql -h ${aws_db_instance.clixx_db.address} -u ${var.db_username} -p${var.db_password} ${var.db_name} -e "UPDATE wp_options SET option_value='http://ecs.${var.root_domain}' WHERE option_value LIKE '%NLB%';"
+              # Update WordPress URLs 
+              mysql -h ${aws_db_instance.clixx_db.address} -u ${var.db_username} -p${var.db_password} ${var.db_name} -e "UPDATE wp_options SET option_value='http://ecs.${var.root_domain}' WHERE option_name IN ('siteurl', 'home');"
               
               echo "WordPress URLs updated"
               EOF
