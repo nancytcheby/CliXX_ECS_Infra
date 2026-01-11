@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "clixx_task" {
   container_definitions = jsonencode([
     {
       name      = "clixx-container"
-      image     = "${var.ecr_repository_url}:latest"
+      image     = "${local.ecr_config.ecr_repository_url}:latest"
       essential = true
 
       portMappings = [

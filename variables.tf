@@ -149,12 +149,6 @@ variable "root_domain" {
 # ECS Configuration
 # ----------------------------------------
 
-variable "ecr_repository_url" {
-  description = "ECR repository URL for Docker image"
-  type        = string
-  default     = "818760291841.dkr.ecr.us-east-1.amazonaws.com/clixx-repository"
-}
-
 variable "ecs_task_cpu" {
   description = "CPU units for ECS task"
   type        = string
