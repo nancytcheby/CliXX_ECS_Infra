@@ -57,7 +57,7 @@ resource "aws_launch_template" "ecs_launch_template" {
               sleep 180
               
               # Update WordPress URLs 
-              mysql -h ${aws_db_instance.clixx_db.address} -u ${var.db_username} -p${var.db_password} ${var.db_name} -e "UPDATE wp_options SET option_value='http://ecs.${var.root_domain}' WHERE option_name IN ('siteurl', 'home');"
+              mysql -h ${aws_db_instance.clixx_db.address} -u ${var.db_username} -p${var.db_password} ${var.db_name} -e "UPDATE wp_options SET option_value='http://ecs.${var.root_domain}' WHERE option_value LIKE '%nlb%';"
               
               echo "WordPress URLs updated"
               EOF
